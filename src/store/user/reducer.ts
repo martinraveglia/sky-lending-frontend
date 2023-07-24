@@ -1,10 +1,19 @@
 import { createReducer } from "@reduxjs/toolkit";
 
-import { createUserInformation, getUser, getUserList, logIn, signUp, updateUserInformation } from "./actions";
+import { Role } from "@/types/user";
+
+import {
+  createUserInformation,
+  getUser,
+  getUserList,
+  logIn,
+  signUp,
+  updateUserInformation,
+} from "./actions";
 import { type UserState } from "./types";
 
 export const initialState = {
-  isLoading: true,
+  isLoading: false,
   userList: [],
   personalInformation: undefined,
   username: undefined,
@@ -67,6 +76,7 @@ export const userReducer = createReducer<UserState>(initialState, (builder) => {
   builder.addCase(logIn.fulfilled, (state, action) => {
     state.isLoading = false;
     state.token = action.payload.token;
+    state.role = action.payload.role;
     state.personalInformationCreated = !!action.payload.userCreated;
   });
   builder.addCase(signUp.pending, (state) => {
@@ -79,5 +89,6 @@ export const userReducer = createReducer<UserState>(initialState, (builder) => {
   builder.addCase(signUp.fulfilled, (state, action) => {
     state.isLoading = false;
     state.token = action.payload.token;
+    state.role = Role.user;
   });
 });

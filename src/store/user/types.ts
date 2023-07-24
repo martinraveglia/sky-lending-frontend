@@ -18,4 +18,6 @@ export enum ACTIONS {
   GET_USER_LIST = "user/getUserList",
   CREATE_PERSONAL_INFORMATION = "user/createPersonalInformation",
   UPDATE_PERSONAL_INFORMATION = "user/updatePersonalInformation",
+  LOG_IN = "user/logIn",
+  SIGN_UP = "user/signUp",
 }

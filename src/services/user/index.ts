@@ -6,31 +6,79 @@ import { endpoint } from "../config";
 import { ModifyInformationResponse } from "./types";
 
 export const getUserInformationService = async (): Promise<User> => {
-  const response = await axios.get<User>(endpoint.user.get);
+  try {
+    const response = await axios.get<User>(endpoint.user.get);
 
-  return response.data;
+    return response.data;
+  } catch (ex) {
+    let error = ex;
+    if (axios.isAxiosError(ex)) {
+      if (ex.response) {
+        error = `${ex.message} - ${
+          (ex.response.data as { message: string }).message
+        }`;
+      }
+    }
+    throw error;
+  }
 };
 
 export const getUserInformationListService = async (): Promise<User[]> => {
-  const response = await axios.get<User[]>(endpoint.user.getAll);
+  try {
+    const response = await axios.get<User[]>(endpoint.user.getAll);
 
-  return response.data;
+    return response.data;
+  } catch (ex) {
+    let error = ex;
+    if (axios.isAxiosError(ex)) {
+      if (ex.response) {
+        error = `${ex.message} - ${
+          (ex.response.data as { message: string }).message
+        }`;
+      }
+    }
+    throw error;
+  }
 };
 
 export const createUserInformationService =
   async (): Promise<ModifyInformationResponse> => {
-    const response = await axios.post<ModifyInformationResponse>(
-      endpoint.user.create,
-    );
+    try {
+      const response = await axios.post<ModifyInformationResponse>(
+        endpoint.user.create,
+      );
 
-    return response.data;
+      return response.data;
+    } catch (ex) {
+      let error = ex;
+      if (axios.isAxiosError(ex)) {
+        if (ex.response) {
+          error = `${ex.message} - ${
+            (ex.response.data as { message: string }).message
+          }`;
+        }
+      }
+      throw error;
+    }
   };
 
 export const updateUserInformationService =
   async (): Promise<ModifyInformationResponse> => {
-    const response = await axios.patch<ModifyInformationResponse>(
-      endpoint.user.update,
-    );
+    try {
+      const response = await axios.patch<ModifyInformationResponse>(
+        endpoint.user.update,
+      );
 
-    return response.data;
+      return response.data;
+    } catch (ex) {
+      let error = ex;
+      if (axios.isAxiosError(ex)) {
+        if (ex.response) {
+          error = `${ex.message} - ${
+            (ex.response.data as { message: string }).message
+          }`;
+        }
+      }
+      throw error;
+    }
   };

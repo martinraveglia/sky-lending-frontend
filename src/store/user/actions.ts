@@ -1,7 +1,11 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 
 import { logInService, signUpService } from "@/services/auth";
-import { LogInResponse, SignUpResponse } from "@/services/auth/types";
+import {
+  CredentialPayload,
+  LogInResponse,
+  SignUpResponse,
+} from "@/services/auth/types";
 import {
   createUserInformationService,
   getUserInformationListService,
@@ -35,12 +39,12 @@ export const updateUserInformation =
     updateUserInformationService,
   );
 
-export const logIn = createAsyncThunk<LogInResponse>(
-  ACTIONS.GET_USER_LIST,
+export const logIn = createAsyncThunk<LogInResponse, CredentialPayload>(
+  ACTIONS.LOG_IN,
   logInService,
 );
 
-export const signUp = createAsyncThunk<SignUpResponse>(
-  ACTIONS.GET_USER_LIST,
+export const signUp = createAsyncThunk<SignUpResponse, CredentialPayload>(
+  ACTIONS.SIGN_UP,
   signUpService,
 );
