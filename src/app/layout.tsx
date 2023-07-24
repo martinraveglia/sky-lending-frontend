@@ -6,6 +6,7 @@ import { Inter } from "next/font/google";
 import { Toaster } from "@/components/ui/toaster";
 
 import ErrorToast from "./errorToast";
+import UseLogOutRedirect from "./UseLogOutRedirect";
 import Wrappers from "./wrappers";
 
 const inter = Inter({ subsets: ["latin"] });
@@ -25,6 +26,7 @@ export default function RootLayout({
         <Wrappers>
           {children}
           <ErrorToast />
+          <UseLogOutRedirect />
         </Wrappers>
         <Toaster />
       </body>

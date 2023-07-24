@@ -65,7 +65,9 @@ axiosInterceptorInstance.interceptors.response.use(
     if (
       err &&
       err.response &&
-      (err.response.data.statusCode === 401 ||
+      (err.response.status === 401 ||
+        err.response.status === 403 ||
+        err.response.data.statusCode === 401 ||
         err.response.data.statusCode === 403 ||
         err.response.data.error === "Unauthorized")
     ) {

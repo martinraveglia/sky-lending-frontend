@@ -1,18 +1,24 @@
 import axios from "axios";
 
 import axiosInterceptorInstance, { endpoint } from "../config";
-import { CredentialPayload, LogInResponse, SignUpResponse } from "./types";
+import {
+  CredentialPayload,
+  LogInEndpointResponse,
+  LogInResponse,
+  SignUpEndpointResponse,
+  SignUpResponse,
+} from "./types";
 
 export const logInService = async (
   payload: CredentialPayload,
 ): Promise<LogInResponse> => {
   try {
-    const response = await axiosInterceptorInstance.post<LogInResponse>(
+    const response = await axiosInterceptorInstance.post<LogInEndpointResponse>(
       endpoint.auth.logIn,
       payload,
     );
 
-    return response.data;
+    return { ...response.data, username: payload.username };
   } catch (ex) {
     let error = ex;
     if (axios.isAxiosError(ex)) {
@@ -30,12 +36,13 @@ export const signUpService = async (
   payload: CredentialPayload,
 ): Promise<SignUpResponse> => {
   try {
-    const response = await axiosInterceptorInstance.post<SignUpResponse>(
-      endpoint.auth.signUp,
-      payload,
-    );
+    const response =
+      await axiosInterceptorInstance.post<SignUpEndpointResponse>(
+        endpoint.auth.signUp,
+        payload,
+      );
 
-    return response.data;
+    return { ...response.data, username: payload.username };
   } catch (ex) {
     let error = ex;
     if (axios.isAxiosError(ex)) {

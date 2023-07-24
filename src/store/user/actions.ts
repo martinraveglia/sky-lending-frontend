@@ -26,7 +26,7 @@ export const getUser = createAsyncThunk<GetUserResponse>(
   getUserInformationService,
 );
 
-export const getUserList = createAsyncThunk<User[]>(
+export const getUserList = createAsyncThunk<GetUserResponse[]>(
   ACTIONS.GET_USER_LIST,
   getUserInformationListService,
 );
@@ -52,3 +52,5 @@ export const signUp = createAsyncThunk<SignUpResponse, CredentialPayload>(
 );
 
 export const signOut = createAction("user/signOut");
+
+export const finishSignOut = createAction("user/finishSignOut");

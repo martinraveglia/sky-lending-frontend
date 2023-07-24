@@ -3,7 +3,7 @@
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useRouter } from "next/navigation";
 import * as React from "react";
-import { useEffect } from "react";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { InferType, object, string } from "yup";
 
@@ -16,7 +16,7 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { useAppDispatch, useAppSelector } from "@/store";
+import { useAppDispatch } from "@/store";
 import { logIn, signUp } from "@/store/user/actions";
 import { Role } from "@/types/user";
 import { cn } from "@/utils";
@@ -43,9 +43,7 @@ const CredentialYupSchema = object({
 export function AuthForm({ className, isLogIn, ...props }: AuthFormProps) {
   const dispatch = useAppDispatch();
   const router = useRouter();
-  const { isLoading, role, personalInformationCreated } = useAppSelector(
-    (store) => store.user,
-  );
+  const [isLoading, setIsLoading] = useState(false);
 
   const form = useForm({
     mode: "onBlur",
@@ -59,11 +57,13 @@ export function AuthForm({ className, isLogIn, ...props }: AuthFormProps) {
     password,
   }: InferType<typeof CredentialYupSchema>) => {
     try {
+      setIsLoading(true);
       if (isLogIn) {
         const { role, userCreated } = await dispatch(
           logIn({ username: username.toLowerCase(), password }),
         ).unwrap();
-        if (role === Role.admin || userCreated) return router.replace("/");
+        if (role === Role.admin) return router.replace("/admin");
+        if (userCreated) return router.replace("/");
         return router.replace("/create-profile");
       }
       await dispatch(
@@ -72,6 +72,7 @@ export function AuthForm({ className, isLogIn, ...props }: AuthFormProps) {
       return router.replace("/create-profile");
     } catch (error) {
       console.error(error);
+      setIsLoading(false);
     }
   };
 

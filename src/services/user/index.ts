@@ -29,9 +29,11 @@ export const getUserInformationService = async (): Promise<GetUserResponse> => {
   }
 };
 
-export const getUserInformationListService = async (): Promise<User[]> => {
+export const getUserInformationListService = async (): Promise<
+  GetUserResponse[]
+> => {
   try {
-    const response = await axiosInterceptorInstance.get<User[]>(
+    const response = await axiosInterceptorInstance.get<GetUserResponse[]>(
       endpoint.user.getAll,
     );
 

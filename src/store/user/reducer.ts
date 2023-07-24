@@ -1,11 +1,11 @@
 import { createReducer } from "@reduxjs/toolkit";
 import Cookies from "js-cookie";
-import { cookies } from "next/dist/client/components/headers";
 
 import { Role } from "@/types/user";
 
 import {
   createUserInformation,
+  finishSignOut,
   getUser,
   getUserList,
   logIn,
@@ -24,6 +24,7 @@ export const initialState = {
   role: undefined,
   personalInformationCreated: false,
   error: undefined,
+  signingOut: false,
 };
 
 export const userReducer = createReducer<UserState>(initialState, (builder) => {
@@ -82,6 +83,7 @@ export const userReducer = createReducer<UserState>(initialState, (builder) => {
     state.isLoading = false;
     state.token = action.payload.token;
     state.role = action.payload.role;
+    state.username = action.payload.username;
     state.personalInformationCreated = !!action.payload.userCreated;
     Cookies.set("currentUserToken", action.payload.token);
     Cookies.set("currentUserRole", action.payload.role);
@@ -97,12 +99,16 @@ export const userReducer = createReducer<UserState>(initialState, (builder) => {
     state.isLoading = false;
     state.token = action.payload.token;
     state.role = Role.user;
+    state.username = action.payload.username;
     Cookies.set("currentUserToken", action.payload.token);
     Cookies.set("currentUserRole", Role.user);
   });
   builder.addCase(signOut, (state) => {
-    state = initialState;
     Cookies.remove("currentUserToken");
     Cookies.remove("currentUserRole");
+    return { ...initialState, signingOut: true };
+  });
+  builder.addCase(finishSignOut, (state) => {
+    state.signingOut = false;
   });
 });

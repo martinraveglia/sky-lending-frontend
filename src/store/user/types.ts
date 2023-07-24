@@ -1,5 +1,6 @@
 import { type SerializedError } from "@reduxjs/toolkit";
 
+import { GetUserResponse } from "@/services/user/types";
 import { Role, User } from "@/types/user";
 
 export interface UserState {
@@ -8,9 +9,10 @@ export interface UserState {
   username?: string;
   role?: Role;
   token?: string;
-  userList: User[];
+  userList: GetUserResponse[];
   personalInformationCreated: boolean;
   error?: SerializedError;
+  signingOut: boolean;
 }
 
 export enum ACTIONS {
