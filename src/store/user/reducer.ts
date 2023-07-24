@@ -7,6 +7,7 @@ import {
   getUser,
   getUserList,
   logIn,
+  signOut,
   signUp,
   updateUserInformation,
 } from "./actions";
@@ -90,5 +91,8 @@ export const userReducer = createReducer<UserState>(initialState, (builder) => {
     state.isLoading = false;
     state.token = action.payload.token;
     state.role = Role.user;
+  });
+  builder.addCase(signOut, (state) => {
+    state = initialState;
   });
 });

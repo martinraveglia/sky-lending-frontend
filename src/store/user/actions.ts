@@ -1,4 +1,4 @@
-import { createAsyncThunk } from "@reduxjs/toolkit";
+import { createAction, createAsyncThunk } from "@reduxjs/toolkit";
 
 import { logInService, signUpService } from "@/services/auth";
 import {
@@ -12,7 +12,10 @@ import {
   getUserInformationService,
   updateUserInformationService,
 } from "@/services/user";
-import { ModifyInformationResponse } from "@/services/user/types";
+import {
+  ModifyInformationResponse,
+  UserInformationPayload,
+} from "@/services/user/types";
 import { User } from "@/types/user";
 
 import { ACTIONS } from "./types";
@@ -27,11 +30,10 @@ export const getUserList = createAsyncThunk<User[]>(
   getUserInformationListService,
 );
 
-export const createUserInformation =
-  createAsyncThunk<ModifyInformationResponse>(
-    ACTIONS.CREATE_PERSONAL_INFORMATION,
-    createUserInformationService,
-  );
+export const createUserInformation = createAsyncThunk<
+  ModifyInformationResponse,
+  UserInformationPayload
+>(ACTIONS.CREATE_PERSONAL_INFORMATION, createUserInformationService);
 
 export const updateUserInformation =
   createAsyncThunk<ModifyInformationResponse>(
@@ -48,3 +50,5 @@ export const signUp = createAsyncThunk<SignUpResponse, CredentialPayload>(
   ACTIONS.SIGN_UP,
   signUpService,
 );
+
+export const signOut = createAction("user/signOut");

@@ -1,7 +1,6 @@
 "use client";
 
 import { yupResolver } from "@hookform/resolvers/yup";
-import axios from "axios";
 import { useRouter } from "next/navigation";
 import * as React from "react";
 import { useEffect } from "react";
@@ -26,7 +25,6 @@ import { PASSWORD_VALIDATION } from "@/utils/regexs";
 import { Spinner } from "../Spinner";
 import { Button } from "../ui/button";
 import { Input } from "../ui/input";
-import { useToast } from "../ui/use-toast";
 
 interface AuthFormProps extends React.HTMLAttributes<HTMLDivElement> {
   isLogIn: boolean;
@@ -45,10 +43,9 @@ const CredentialYupSchema = object({
 export function AuthForm({ className, isLogIn, ...props }: AuthFormProps) {
   const dispatch = useAppDispatch();
   const router = useRouter();
-  const { isLoading, role, error, personalInformationCreated } = useAppSelector(
+  const { isLoading, role, personalInformationCreated } = useAppSelector(
     (store) => store.user,
   );
-  const { toast } = useToast();
 
   const form = useForm({
     mode: "onBlur",
@@ -57,22 +54,25 @@ export function AuthForm({ className, isLogIn, ...props }: AuthFormProps) {
     resolver: yupResolver(CredentialYupSchema),
   });
 
-  useEffect(() => {
-    if (role) {
-      if (role === Role.admin || personalInformationCreated)
-        return router.replace("/");
-      return router.replace("/create-profile");
-    }
-  }, [personalInformationCreated, router, role]);
-
   const onSubmit = async ({
     username,
     password,
   }: InferType<typeof CredentialYupSchema>) => {
-    if (isLogIn) {
-      return dispatch(logIn({ username, password }));
+    try {
+      if (isLogIn) {
+        const { role, userCreated } = await dispatch(
+          logIn({ username: username.toLowerCase(), password }),
+        ).unwrap();
+        if (role === Role.admin || userCreated) return router.replace("/");
+        return router.replace("/create-profile");
+      }
+      await dispatch(
+        signUp({ username: username.toLowerCase(), password }),
+      ).unwrap();
+      return router.replace("/create-profile");
+    } catch (error) {
+      console.error(error);
     }
-    return dispatch(signUp({ username, password }));
   };
 
   return (

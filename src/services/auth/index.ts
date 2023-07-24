@@ -1,13 +1,13 @@
 import axios from "axios";
 
-import { endpoint } from "../config";
+import axiosInterceptorInstance, { endpoint } from "../config";
 import { CredentialPayload, LogInResponse, SignUpResponse } from "./types";
 
 export const logInService = async (
   payload: CredentialPayload,
 ): Promise<LogInResponse> => {
   try {
-    const response = await axios.post<LogInResponse>(
+    const response = await axiosInterceptorInstance.post<LogInResponse>(
       endpoint.auth.logIn,
       payload,
     );
@@ -30,7 +30,7 @@ export const signUpService = async (
   payload: CredentialPayload,
 ): Promise<SignUpResponse> => {
   try {
-    const response = await axios.post<SignUpResponse>(
+    const response = await axiosInterceptorInstance.post<SignUpResponse>(
       endpoint.auth.signUp,
       payload,
     );
