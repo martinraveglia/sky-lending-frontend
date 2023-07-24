@@ -145,7 +145,17 @@ export function UpdateProfileForm({ className, ...props }: ProfileFormProps) {
               <FormItem>
                 <FormLabel className="sr-only">Last Name</FormLabel>
                 <FormControl>
-                  <Input type="number" placeholder="111222333" {...field} />
+                  <Input
+                    inputMode="numeric"
+                    type="string"
+                    placeholder="111223333"
+                    {...field}
+                    onChange={(e) => {
+                      field.onChange(
+                        e.target.value?.replace(/[^0-9]|^0*/g, ""),
+                      );
+                    }}
+                  />
                 </FormControl>
                 <FormDescription>
                   The SSN number has a length of 9 digits

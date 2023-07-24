@@ -31,11 +31,11 @@
 
 ## About The Project
 
-This project is a frontend User managing tool, it integrates with a server developed on ExpressJS w/ Typescript and MongoDB. Authentication is solved as well, having protected routes for any role related action. Available roles are `admin` and `user`, admin accounts cannot be created through the application logic, those are created directly on the database.
+This project is a frontend User managing tool, it integrates with a server developed on ExpressJS w/ Typescript and MongoDB. Available roles are `admin` and `user`, admin accounts cannot be created through the application logic, those are created directly on the database.
 
-Users have the capability to create an account, logIn, update and retrieve their personal information.
+Users have the capability to create an account, log in, update and retrieve their personal information.
 
-Admins, in the other hand, have the capability to retrieve information on every user in the database.
+Admins, in the other hand, have the capability to log in and retrieve information on every user in the database.
 
 ### Built With
 
@@ -68,11 +68,11 @@ Admin accounts can not be created through an endpoint, those are created modifyi
 
 ### Installation
 
-Use the package manager [yarn](https://yarnpkg.com/) to install SkyLending Server.
+Use the package manager [yarn](https://yarnpkg.com/) to install SkyLending FrontEnd.
 
 1. Clone the repo
    ```
-   git clone https://github.com/martinraveglia/sky-lending-backend.git
+   git clone https://github.com/martinraveglia/sky-lending-frontend.git
    ```
 2. Install NPM packages
    ```

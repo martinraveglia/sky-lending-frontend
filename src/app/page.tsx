@@ -1,12 +1,10 @@
 "use client";
-import Link from "next/link";
 import { useEffect } from "react";
 
-import { buttonVariants } from "@/components/ui/button";
+import { Button } from "@/components/ui/button";
 import { UpdateProfileForm } from "@/components/UpdateProfileForm/UpdateProfileForm";
 import { useAppDispatch, useAppSelector } from "@/store";
 import { getUser, signOut } from "@/store/user/actions";
-import { cn } from "@/utils";
 
 export default function Home() {
   const { username } = useAppSelector((store) => store.user);
@@ -14,18 +12,16 @@ export default function Home() {
   useEffect(() => {
     dispatch(getUser());
   }, [dispatch]);
+
   return (
     <div className="container relative flex-1 flex-col items-center justify-center grid lg:max-w-none lg:grid-cols-2 lg:px-0">
-      <Link
-        href="/log-in"
+      <Button
+        variant={"ghost"}
         onClick={() => dispatch(signOut())}
-        className={cn(
-          buttonVariants({ variant: "ghost" }),
-          "absolute right-4 top-4 md:right-8 md:top-8",
-        )}
+        className={"absolute right-4 top-4 md:right-8 md:top-8"}
       >
         Log Out
-      </Link>
+      </Button>
       <div className="relative hidden h-full flex-col bg-muted p-10 text-white dark:border-r lg:flex">
         <div className="absolute inset-0 bg-zinc-900" />
         <div className="relative z-20 flex items-center text-lg font-medium">

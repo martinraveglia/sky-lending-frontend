@@ -71,11 +71,9 @@ axiosInterceptorInstance.interceptors.response.use(
         err.response.data.statusCode === 403 ||
         err.response.data.error === "Unauthorized")
     ) {
-      return store.dispatch(signOut());
+      store.dispatch(signOut());
     }
-    if (err?.response?.data?.message)
-      return Promise.reject(err.response.data.message);
-    return Promise.reject(err.message);
+    return Promise.reject(err);
   },
 );
 

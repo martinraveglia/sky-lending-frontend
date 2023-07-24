@@ -1,8 +1,22 @@
+"use client";
+
 import { CreateProfileForm } from "@/components/CreateProfileForm/CreateProfileForm";
+import { Button } from "@/components/ui/button";
+import { useAppDispatch, useAppSelector } from "@/store";
+import { signOut } from "@/store/user/actions";
 
 export default function Page() {
+  const { username } = useAppSelector((store) => store.user);
+  const dispatch = useAppDispatch();
   return (
-    <div className="container relative hidden flex-1 flex-col items-center justify-center md:grid lg:max-w-none lg:grid-cols-2 lg:px-0">
+    <div className="container relative flex-1 flex-col items-center justify-center grid lg:max-w-none lg:grid-cols-2 lg:px-0">
+      <Button
+        variant={"ghost"}
+        onClick={() => dispatch(signOut())}
+        className={"absolute right-4 top-4 md:right-8 md:top-8"}
+      >
+        Log Out
+      </Button>
       <div className="relative hidden h-full flex-col bg-muted p-10 text-white dark:border-r lg:flex">
         <div className="absolute inset-0 bg-zinc-900" />
         <div className="relative z-20 flex items-center text-lg font-medium">
@@ -37,9 +51,11 @@ export default function Page() {
         Sky Lending
       </div>
       <div className="lg:p-8">
-        <div className="mx-auto flex w-full flex-col justify-center space-y-6 sm:w-[350px]">
+        <div className="mx-auto flex w-full flex-col justify-center space-y-6 max-w-[350px]">
           <div className="flex flex-col space-y-2 text-center">
-            <h1 className="text-2xl font-semibold tracking-tight">Log In</h1>
+            <h1 className="text-2xl font-semibold tracking-tight">
+              {username && `Hello ${username}!`}
+            </h1>
             <p className="text-sm text-muted-foreground">
               Enter your personal information below to finish up the account
               creation
