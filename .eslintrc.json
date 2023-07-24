@@ -20,14 +20,6 @@
     "@typescript-eslint/no-confusing-void-expression": "off",
     "simple-import-sort/imports": "error",
     "simple-import-sort/exports": "error",
-    "prettier/prettier": "error",
-    "@typescript-eslint/no-misused-promises": [
-      2,
-      {
-        "checksVoidReturn": {
-          "attributes": false
-        }
-      }
-    ]
+    "prettier/prettier": "error"
   }
 }
