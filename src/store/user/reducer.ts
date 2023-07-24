@@ -1,4 +1,6 @@
 import { createReducer } from "@reduxjs/toolkit";
+import Cookies from "js-cookie";
+import { cookies } from "next/dist/client/components/headers";
 
 import { Role } from "@/types/user";
 
@@ -34,7 +36,9 @@ export const userReducer = createReducer<UserState>(initialState, (builder) => {
   });
   builder.addCase(getUser.fulfilled, (state, action) => {
     state.isLoading = false;
-    state.personalInformation = action.payload;
+    const { username, ...personalInformation } = action.payload;
+    state.personalInformation = personalInformation;
+    state.username = username;
   });
   builder.addCase(getUserList.pending, (state) => {
     state.isLoading = true;
@@ -54,7 +58,7 @@ export const userReducer = createReducer<UserState>(initialState, (builder) => {
     state.isLoading = false;
     state.error = action.error;
   });
-  builder.addCase(createUserInformation.fulfilled, (state, action) => {
+  builder.addCase(createUserInformation.fulfilled, (state) => {
     state.isLoading = false;
   });
   builder.addCase(updateUserInformation.pending, (state) => {
@@ -64,7 +68,7 @@ export const userReducer = createReducer<UserState>(initialState, (builder) => {
     state.isLoading = false;
     state.error = action.error;
   });
-  builder.addCase(updateUserInformation.fulfilled, (state, action) => {
+  builder.addCase(updateUserInformation.fulfilled, (state) => {
     state.isLoading = false;
   });
   builder.addCase(logIn.pending, (state) => {
@@ -79,6 +83,8 @@ export const userReducer = createReducer<UserState>(initialState, (builder) => {
     state.token = action.payload.token;
     state.role = action.payload.role;
     state.personalInformationCreated = !!action.payload.userCreated;
+    Cookies.set("currentUserToken", action.payload.token);
+    Cookies.set("currentUserRole", action.payload.role);
   });
   builder.addCase(signUp.pending, (state) => {
     state.isLoading = true;
@@ -91,8 +97,12 @@ export const userReducer = createReducer<UserState>(initialState, (builder) => {
     state.isLoading = false;
     state.token = action.payload.token;
     state.role = Role.user;
+    Cookies.set("currentUserToken", action.payload.token);
+    Cookies.set("currentUserRole", Role.user);
   });
   builder.addCase(signOut, (state) => {
     state = initialState;
+    Cookies.remove("currentUserToken");
+    Cookies.remove("currentUserRole");
   });
 });

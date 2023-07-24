@@ -1,4 +1,5 @@
 import axios from "axios";
+import Cookies from "js-cookie";
 
 import { store } from "@/store";
 import { signOut } from "@/store/user/actions";
@@ -38,9 +39,7 @@ const axiosInterceptorInstance = axios.create({
 
 axiosInterceptorInstance.interceptors.request.use(
   async (req) => {
-    const {
-      user: { token },
-    } = store.getState();
+    const token = Cookies.get("currentUserToken");
     if (token) {
       req.headers.Authorization = "Bearer " + token;
     }
@@ -53,7 +52,11 @@ axiosInterceptorInstance.interceptors.request.use(
 
 axiosInterceptorInstance.interceptors.response.use(
   (res) => {
-    if (res.data.statusCode === 401 || res.data.error === "Unauthorized") {
+    if (
+      res.data.statusCode === 401 ||
+      res.data.statusCode === 403 ||
+      res.data.error === "Unauthorized"
+    ) {
       store.dispatch(signOut());
     }
     return res;
@@ -63,6 +66,7 @@ axiosInterceptorInstance.interceptors.response.use(
       err &&
       err.response &&
       (err.response.data.statusCode === 401 ||
+        err.response.data.statusCode === 403 ||
         err.response.data.error === "Unauthorized")
     ) {
       return store.dispatch(signOut());

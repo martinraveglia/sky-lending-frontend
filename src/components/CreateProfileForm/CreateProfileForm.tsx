@@ -33,9 +33,7 @@ import { Button } from "../ui/button";
 import { Calendar } from "../ui/calendar";
 import { Input } from "../ui/input";
 
-interface ProfileFormProps extends React.HTMLAttributes<HTMLDivElement> {
-  create: boolean;
-}
+interface ProfileFormProps extends React.HTMLAttributes<HTMLDivElement> {}
 
 const UserPersonalInformationYupSchema = object({
   firstName: string()
@@ -61,7 +59,7 @@ const UserPersonalInformationYupSchema = object({
   DoB: date().max(new Date(), "DoB should be before today").required(),
 });
 
-export function ProfileForm({ className, create, ...props }: ProfileFormProps) {
+export function CreateProfileForm({ className, ...props }: ProfileFormProps) {
   const router = useRouter();
   const { isLoading, role, personalInformationCreated } = useAppSelector(
     (store) => store.user,
@@ -118,7 +116,6 @@ export function ProfileForm({ className, create, ...props }: ProfileFormProps) {
               </FormItem>
             )}
           />
-
           <FormField
             control={form.control}
             name="lastName"
@@ -221,7 +218,6 @@ export function ProfileForm({ className, create, ...props }: ProfileFormProps) {
               </FormItem>
             )}
           />
-
           <Button disabled={isLoading} type="submit" className="w-full">
             {isLoading === true && (
               <Spinner className="mr-2 h-4 w-4 animate-spin" />

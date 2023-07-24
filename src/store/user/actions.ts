@@ -13,6 +13,7 @@ import {
   updateUserInformationService,
 } from "@/services/user";
 import {
+  GetUserResponse,
   ModifyInformationResponse,
   UserInformationPayload,
 } from "@/services/user/types";
@@ -20,7 +21,7 @@ import { User } from "@/types/user";
 
 import { ACTIONS } from "./types";
 
-export const getUser = createAsyncThunk<User>(
+export const getUser = createAsyncThunk<GetUserResponse>(
   ACTIONS.GET_USER,
   getUserInformationService,
 );
@@ -35,11 +36,10 @@ export const createUserInformation = createAsyncThunk<
   UserInformationPayload
 >(ACTIONS.CREATE_PERSONAL_INFORMATION, createUserInformationService);
 
-export const updateUserInformation =
-  createAsyncThunk<ModifyInformationResponse>(
-    ACTIONS.UPDATE_PERSONAL_INFORMATION,
-    updateUserInformationService,
-  );
+export const updateUserInformation = createAsyncThunk<
+  ModifyInformationResponse,
+  Partial<UserInformationPayload>
+>(ACTIONS.UPDATE_PERSONAL_INFORMATION, updateUserInformationService);
 
 export const logIn = createAsyncThunk<LogInResponse, CredentialPayload>(
   ACTIONS.LOG_IN,

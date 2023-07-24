@@ -1,3 +1,5 @@
+import { User } from "@/types/user";
+
 export interface ModifyInformationResponse {
   message: string;
 }
@@ -8,4 +10,8 @@ export interface UserInformationPayload {
   phone: string;
   SSN: number;
   DoB: Date;
+}
+
+export interface GetUserResponse extends User {
+  username: string;
 }
